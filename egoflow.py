@@ -3,6 +3,10 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from src.egoflow.config import load_config
 from src.egoflow.pipeline import run_pipeline
 
