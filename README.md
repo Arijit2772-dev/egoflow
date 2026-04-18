@@ -19,10 +19,10 @@ The MVP runs on a laptop with no model training. Heavy models are fail-soft: whe
 
 ```bash
 cd egoflow
-python -m pip install -r requirements.txt
+.venv311/bin/python -m pip install -r requirements.txt
 cp .env.example .env
-python egoflow.py --input ../round_1/sample_video/DSJ_0000000_000000_20250221030623.MP4
-python egoflow.py --serve
+.venv311/bin/python egoflow.py ../round_1/sample_video/DSJ_0000000_000000_20250221030623.MP4
+.venv311/bin/python egoflow.py --serve
 ```
 
 Open `http://localhost:8000` for the viewer.
@@ -30,10 +30,11 @@ Open `http://localhost:8000` for the viewer.
 ## CLI
 
 ```bash
-python egoflow.py --input video.mp4
-python egoflow.py --input video.mp4 --phases 1,2,3
-python egoflow.py --input video.mp4 --resume
-python egoflow.py --serve
+.venv311/bin/python egoflow.py --input video.mp4
+.venv311/bin/python egoflow.py video.mp4
+.venv311/bin/python egoflow.py --input video.mp4 --phases 1,2,3
+.venv311/bin/python egoflow.py --input video.mp4 --resume
+.venv311/bin/python egoflow.py --serve
 ```
 
 ## Outputs
@@ -62,8 +63,24 @@ video.mp4
 ## Research Links
 
 - 100DOH: https://arxiv.org/abs/2006.06669
+- 100DOH code: https://github.com/ddshan/hand_object_detector
+- 100DOH project page: https://fouheylab.eecs.umich.edu/~dandans/projects/100DOH/
 - HaMeR: https://arxiv.org/abs/2312.05251
 - YOLO-World: https://arxiv.org/abs/2401.17270
 - SAM2: https://arxiv.org/abs/2408.00714
 - Ego4D: https://arxiv.org/abs/2110.07058
 - CLIP: https://arxiv.org/abs/2103.00020
+
+## 100DOH Contact-State Model
+
+Use the official `ddshan/hand_object_detector` repository for the contact-state module. That is the CVPR 2020 hand-object detector that outputs hand boxes, side, contact state, and contacted-object boxes.
+
+Recommended model for EgoFlow:
+
+- `handobj_100K+ego`
+- checkpoint: `faster_rcnn_1_8_132028.pth`
+- expected path: `weights/100doh/hand_object_detector/models/res101_handobj_100K+ego/pascal_voc/faster_rcnn_1_8_132028.pth`
+
+Do not use `ddshan/hand_detector.d2` for the core contact-state claim. It is useful for hand boxes, but it does not provide the full hand-object contact output EgoFlow needs.
+
+The official detector is CUDA/Faster-RCNN based and its README targets a separate Python 3.8 + PyTorch 1.12.1 + CUDA 11.3 environment. EgoFlow stays fail-soft: when the full detector is absent, it preserves the schema and uses the local hand-object overlap fallback.

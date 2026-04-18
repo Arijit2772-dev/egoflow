@@ -1,4 +1,5 @@
 .env
+.venv*/
 output/
 weights/
 __pycache__/
