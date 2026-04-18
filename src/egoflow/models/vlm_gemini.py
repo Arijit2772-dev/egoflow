@@ -13,7 +13,7 @@ logger = get_logger(__name__)
 
 
 class GeminiNarrator:
-    def __init__(self, model_name: str = "gemini-1.5-flash", temperature: float = 0.2, max_tokens: int = 80):
+    def __init__(self, model_name: str = "gemini-flash-latest", temperature: float = 0.2, max_tokens: int = 80):
         self.model_name = model_name
         self.temperature = temperature
         self.max_tokens = max_tokens

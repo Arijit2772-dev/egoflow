@@ -91,7 +91,7 @@ class Narration:
     verb: str
     noun: str
     tool: Optional[str] = None
-    vlm_model: str = "gemini-1.5-flash"
+    vlm_model: str = "gemini-flash-latest"
 
 
 @dataclass

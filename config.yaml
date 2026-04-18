@@ -45,7 +45,7 @@ verb_vocabulary:
   - serve
 
 describe:
-  vlm_model: "gemini-1.5-flash"
+  vlm_model: "gemini-flash-latest"
   temperature: 0.2
   max_tokens: 80
 
