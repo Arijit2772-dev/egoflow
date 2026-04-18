@@ -16,6 +16,9 @@ annotation:
   track_sample_fps: 2.0
   enable_hamer: false
   enable_sam2: false
+  enable_100doh: false
+  100doh_runner: "./scripts/run_100doh.sh"
+  100doh_timeout_sec: 30
 
 object_vocabulary:
   - plate

@@ -39,7 +39,14 @@ def run(video_uid: str, config: dict) -> None:
         vocab=list(config["object_vocabulary"]),
         min_confidence=float(config["annotation"]["min_object_confidence"]),
     )
-    contact_model = Contact100DOH(device=device, weights_path=str(root_weights / "100doh"))
+    annotation_cfg = config["annotation"]
+    contact_model = Contact100DOH(
+        device=device,
+        weights_path=str(root_weights / "100doh"),
+        enabled=bool(annotation_cfg.get("enable_100doh", False)),
+        runner_path=annotation_cfg.get("100doh_runner"),
+        timeout_sec=int(annotation_cfg.get("100doh_timeout_sec", 30)),
+    )
     pose_model = HaMeRPose(device=device, weights_path=str(root_weights / "hamer")) if config["annotation"]["enable_hamer"] else None
     mask_model = SAM2Masks(device=device, weights_path=str(root_weights / "sam2")) if config["annotation"]["enable_sam2"] else None
 
