@@ -1,0 +1,54 @@
+papers:
+  Shan2020:
+    short_name: "100DOH"
+    title: "Understanding Human Hands in Contact at Internet Scale"
+    authors: "Shan, Geng, Shu, Fouhey"
+    venue: "CVPR 2020"
+    link: "https://arxiv.org/abs/2006.06669"
+    contributes: ["hands.contact_state", "hands.grasp_type", "hands.in_contact_with"]
+    one_liner: "Hand-object contact state + grasp type detection."
+
+  Pavlakos2023:
+    short_name: "HaMeR"
+    title: "Reconstructing Hands in 3D with Transformers"
+    authors: "Pavlakos et al."
+    venue: "ICCV 2023"
+    link: "https://arxiv.org/abs/2312.05251"
+    contributes: ["hands.pose_3d_mano"]
+    one_liner: "3D MANO hand mesh from a single RGB frame."
+
+  Cheng2024:
+    short_name: "YOLO-World"
+    title: "Real-Time Open-Vocabulary Object Detection"
+    authors: "Cheng et al."
+    venue: "CVPR 2024"
+    link: "https://arxiv.org/abs/2401.17270"
+    contributes: ["objects.label", "objects.bbox_2d"]
+    one_liner: "Zero-shot object detection via text prompts."
+
+  Ravi2024:
+    short_name: "SAM2"
+    title: "SAM 2: Segment Anything in Images and Videos"
+    authors: "Ravi et al. (Meta AI)"
+    venue: "arXiv 2024"
+    link: "https://arxiv.org/abs/2408.00714"
+    contributes: ["objects.mask_rle"]
+    one_liner: "Pixel-level segmentation masks."
+
+  Grauman2022:
+    short_name: "Ego4D"
+    title: "Ego4D: Around the World in 3000 Hours"
+    authors: "Grauman et al."
+    venue: "CVPR 2022"
+    link: "https://arxiv.org/abs/2110.07058"
+    contributes: ["schema"]
+    one_liner: "Egocentric dataset schema - our output is plug-compatible."
+
+  Radford2021:
+    short_name: "CLIP"
+    title: "Learning Transferable Visual Models from NL Supervision"
+    authors: "Radford et al. (OpenAI)"
+    venue: "ICML 2021"
+    link: "https://arxiv.org/abs/2103.00020"
+    contributes: ["qa.clip_consistency_score"]
+    one_liner: "Frame-caption semantic-consistency QA."

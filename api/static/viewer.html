@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EgoFlow Viewer</title>
+    <link rel="stylesheet" href="/static/viewer.css?v=20260419-progress-stable" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">EgoFlow</p>
+        <h1>Robot Data Refinery</h1>
+      </div>
+      <form id="upload-form" class="upload">
+        <input id="upload-input" type="file" accept="video/*" />
+        <button type="submit">Upload</button>
+      </form>
+      <a id="download-json" class="button" href="#">Download JSON</a>
+    </header>
+
+    <main>
+      <section class="status-band">
+        <span id="video-id">No processed video selected</span>
+        <progress id="progress" value="0" max="6"></progress>
+        <span id="progress-text">Idle</span>
+      </section>
+
+      <section class="process-panel" aria-live="polite">
+        <div class="process-header">
+          <div>
+            <p class="eyebrow">Processing Pipeline</p>
+            <h2 id="active-phase-title">Waiting for upload</h2>
+          </div>
+          <span id="active-phase-backing">Research-backed status will appear here</span>
+        </div>
+        <div id="phase-timeline" class="phase-timeline"></div>
+        <div class="process-body">
+          <div>
+            <p class="eyebrow">What Is Happening Now</p>
+            <p id="active-phase-message">Choose a video and press Upload.</p>
+          </div>
+          <div>
+            <p class="eyebrow">Live Event Log</p>
+            <ol id="event-log" class="event-log"></ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="video-grid">
+        <div class="video-shell">
+          <h2>Raw Video</h2>
+          <video id="raw-video" controls muted playsinline></video>
+        </div>
+        <div class="video-shell annotated-shell">
+          <h2>Annotated Video</h2>
+          <video id="annotated-video" muted playsinline></video>
+          <canvas id="overlay"></canvas>
+        </div>
+      </section>
+
+      <section class="segment-panel">
+        <div>
+          <p class="eyebrow">Current Segment</p>
+          <h2 id="segment-title">Waiting for dataset</h2>
+          <p id="caption">Run the pipeline or upload a processed video.</p>
+          <p id="annotation-source" class="source-note">Overlay source: waiting</p>
+        </div>
+        <div class="field-row">
+          <span data-field="verb">verb: <b id="verb">-</b></span>
+          <span data-field="noun">noun: <b id="noun">-</b></span>
+          <span data-field="tool">tool: <b id="tool">-</b></span>
+        </div>
+        <div class="hand-row">
+          <span data-field="hands.contact_state">Left <b id="left-contact">none</b> <b id="left-grasp">none</b></span>
+          <span data-field="hands.contact_state">Right <b id="right-contact">none</b> <b id="right-grasp">none</b></span>
+        </div>
+        <div class="quality">
+          <span>Quality</span>
+          <meter id="quality-meter" min="0" max="1" value="0"></meter>
+          <b id="quality-score">0%</b>
+        </div>
+      </section>
+
+      <section class="research-panel">
+        <button id="research-toggle" type="button">Research Foundation</button>
+        <div id="research-list" class="research-list"></div>
+      </section>
+    </main>
+
+    <footer id="research-ribbon" class="research-ribbon"></footer>
+    <div id="tooltip" class="tooltip" hidden></div>
+
+    <script src="/static/components/research_ribbon.js"></script>
+    <script src="/static/components/research_panel.js"></script>
+    <script src="/static/components/field_tooltip.js"></script>
+    <script src="/static/viewer.js?v=20260419-progress-stable"></script>
+  </body>
+</html>

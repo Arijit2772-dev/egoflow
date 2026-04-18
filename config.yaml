@@ -1,0 +1,62 @@
+input:
+  sampled_fps: 5
+  normalize_resolution: [1920, 1080]
+  normalize_fps: 30
+
+segmentation:
+  scene_threshold: 27.0
+  min_clip_duration_sec: 3.0
+  max_clip_duration_sec: 30.0
+  optical_flow_threshold: 2.5
+
+annotation:
+  device: "cpu"
+  min_hand_confidence: 0.5
+  min_object_confidence: 0.4
+  track_sample_fps: 2.0
+  enable_hamer: false
+  enable_sam2: false
+
+object_vocabulary:
+  - plate
+  - fork
+  - spoon
+  - knife
+  - wine_glass
+  - water_glass
+  - bottle
+  - napkin
+  - cloth
+  - tray
+  - herb
+  - bowl
+  - cup
+
+verb_vocabulary:
+  - polish
+  - wipe
+  - pick
+  - place
+  - carry
+  - arrange
+  - walk
+  - grasp
+  - pour
+  - serve
+
+describe:
+  vlm_model: "gemini-1.5-flash"
+  temperature: 0.2
+  max_tokens: 80
+
+validate:
+  min_clip_consistency: 0.25
+  min_avg_confidence: 0.60
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+
+paths:
+  output_root: "./output"
+  weights_root: "./weights"
