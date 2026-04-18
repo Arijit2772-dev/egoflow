@@ -54,6 +54,12 @@ class GeminiNarrator:
     def unload(self) -> None:
         self._model = None
 
+    def status(self) -> dict:
+        if self._model is not None:
+            return {"name": "Gemini Narrator", "mode": "real", "reason": f"google-generativeai client ({self.model_name})"}
+        reason = "GEMINI_API_KEY missing" if not os.getenv("GEMINI_API_KEY") else "Gemini client init failed"
+        return {"name": "Gemini Narrator", "mode": "fallback", "reason": f"{reason}; template narration"}
+
     def _parse_json(self, text: str) -> dict:
         try:
             parsed = json.loads(text)

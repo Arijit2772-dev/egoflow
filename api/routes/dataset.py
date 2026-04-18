@@ -34,3 +34,14 @@ def get_validation(uid: str):
     if not path.exists():
         raise HTTPException(status_code=404, detail="validation_report.json not found")
     return FileResponse(path, media_type="application/json")
+
+
+@router.get("/api/video/{uid}/runtime_models")
+def get_runtime_models(uid: str):
+    from src.egoflow.utils.provenance import read, summary
+
+    out_dir = video_dir(uid, load_config())
+    data = read(out_dir)
+    if not data.get("models"):
+        raise HTTPException(status_code=404, detail="runtime_models.json not found")
+    return {**data, "summary": summary(data)}

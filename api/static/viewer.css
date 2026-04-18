@@ -406,3 +406,84 @@ meter {
     flex-direction: column;
   }
 }
+
+.provenance-panel {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-top: 16px;
+}
+.provenance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.provenance-header h2 {
+  margin: 2px 0 0;
+  font-size: 18px;
+}
+.provenance-counts {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.provenance-counts span {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #f7f7f3;
+}
+.provenance-counts .mode-real { color: #0a7a2c; border-color: #bfe5c8; background: #eaf7ee; }
+.provenance-counts .mode-fallback { color: #a35a00; border-color: #f0d7a5; background: #fbf1dc; }
+.provenance-counts .mode-disabled { color: #6a6a65; border-color: #d9d9d2; background: #f2f2ec; }
+
+.provenance-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: grid;
+  gap: 6px;
+}
+.provenance-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto 2fr;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border-left: 4px solid transparent;
+  background: #f7f7f3;
+  font-size: 13px;
+}
+.provenance-item.mode-real { border-left-color: #1fae4b; }
+.provenance-item.mode-fallback { border-left-color: #d8932a; }
+.provenance-item.mode-disabled { border-left-color: #a0a099; }
+.provenance-name { font-weight: 600; }
+.provenance-mode {
+  font-variant: all-small-caps;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+.provenance-item.mode-real .provenance-mode { color: #0a7a2c; border-color: #bfe5c8; }
+.provenance-item.mode-fallback .provenance-mode { color: #a35a00; border-color: #f0d7a5; }
+.provenance-item.mode-disabled .provenance-mode { color: #6a6a65; }
+.provenance-phase { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.06em; }
+.provenance-reason { color: #444; font-size: 12px; }
+.provenance-updated { margin: 8px 0 0; font-size: 11px; color: #888; }
+
+@media (max-width: 720px) {
+  .provenance-item {
+    grid-template-columns: 1fr auto;
+    grid-auto-rows: auto;
+  }
+  .provenance-phase, .provenance-reason { grid-column: 1 / -1; }
+}

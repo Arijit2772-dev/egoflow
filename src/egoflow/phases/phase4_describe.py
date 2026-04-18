@@ -9,6 +9,7 @@ from src.egoflow.schema import ClipAnnotation, ContactState, Narration
 from src.egoflow.utils.io import read_dataclass, write_json
 from src.egoflow.utils.paths import output_root, video_dir
 from src.egoflow.utils.progress import emit
+from src.egoflow.utils.provenance import record as record_provenance
 
 
 def run(video_uid: str, config: dict) -> None:
@@ -35,6 +36,7 @@ def run(video_uid: str, config: dict) -> None:
         progress=10,
     )
     narrator.load()
+    record_provenance(out_dir, [narrator], phase="describe")
     try:
         annotation_files = sorted(annotations_dir.glob("clip_*.json"))
         for idx, annotation_file in enumerate(annotation_files, start=1):

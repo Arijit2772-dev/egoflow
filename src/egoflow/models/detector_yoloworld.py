@@ -68,6 +68,12 @@ class YOLOWorldDetector:
     def unload(self) -> None:
         self._model = None
 
+    def status(self) -> dict:
+        if self._model is not None:
+            return {"name": "YOLO-World", "mode": "real", "reason": f"ultralytics YOLOWorld loaded ({self.weights_path or 'auto'})"}
+        reason = "EGOFLOW_USE_REAL_YOLO!=1 and no local weights" if os.getenv("EGOFLOW_USE_REAL_YOLO", "0") != "1" else "YOLO-World load failed"
+        return {"name": "YOLO-World", "mode": "fallback", "reason": f"{reason}; color/edge contour heuristic"}
+
     def _heuristic_objects(self, frame: np.ndarray) -> list[dict]:
         detected = self._color_and_contour_objects(frame)
         if detected:

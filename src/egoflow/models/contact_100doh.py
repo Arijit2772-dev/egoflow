@@ -190,6 +190,14 @@ class Contact100DOH:
         self._loaded = False
         self._shim_ready = False
 
+    def status(self) -> dict:
+        if self._shim_ready:
+            return {"name": "100DOH Contact", "mode": "real", "reason": f"shim {self.runner_path} active"}
+        if not self.enabled:
+            return {"name": "100DOH Contact", "mode": "disabled", "reason": "annotation.enable_100doh=false; IoU+proximity fallback"}
+        reason = "runner missing or not executable" if self.runner_path else "runner_path unset"
+        return {"name": "100DOH Contact", "mode": "fallback", "reason": f"{reason}; IoU+proximity fallback"}
+
     def _predict_via_shim(
         self,
         frame: np.ndarray,

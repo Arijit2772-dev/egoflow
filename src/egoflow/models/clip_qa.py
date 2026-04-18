@@ -58,6 +58,12 @@ class CLIPQA:
         self._preprocess = None
         self._tokenizer = None
 
+    def status(self) -> dict:
+        if self._model is not None:
+            return {"name": "CLIP QA", "mode": "real", "reason": "open_clip ViT-B-32 (OpenAI) loaded"}
+        reason = "EGOFLOW_ENABLE_CLIP!=1" if os.getenv("EGOFLOW_ENABLE_CLIP", "0") != "1" else "open_clip load failed"
+        return {"name": "CLIP QA", "mode": "fallback", "reason": f"{reason}; lexical consistency score"}
+
     def _lexical_score(self, text: str, labels: list[str]) -> float:
         normalized = text.lower().replace(" ", "_")
         hits = sum(1 for label in labels if label.lower() in normalized)

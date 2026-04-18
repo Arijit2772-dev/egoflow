@@ -60,6 +60,11 @@ class MediaPipeHands:
             self._hands.close()
         self._hands = None
 
+    def status(self) -> dict:
+        if self._hands is not None:
+            return {"name": "MediaPipe Hands", "mode": "real", "reason": "MediaPipe initialized"}
+        return {"name": "MediaPipe Hands", "mode": "fallback", "reason": "MediaPipe unavailable; skin-contour heuristic"}
+
     def _heuristic(self, frame: np.ndarray) -> dict:
         detected = self._skin_contour_hands(frame)
         if detected["left"] is not None or detected["right"] is not None:

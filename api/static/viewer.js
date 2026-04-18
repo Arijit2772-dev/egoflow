@@ -43,6 +43,7 @@ async function loadVideo(uid) {
   document.getElementById("video-id").textContent = uid;
   state.dataset = await fetchJson(`/api/video/${uid}/dataset.json`);
   await loadTracks(uid);
+  await loadProvenance(uid);
   document.getElementById("download-json").href = `/api/video/${uid}/dataset.json`;
   document.getElementById("download-json").classList.remove("disabled");
   rawVideo.src = `/stream/${uid}/normalized.mp4`;
@@ -77,6 +78,46 @@ async function loadTracks(uid) {
       }
     })
   );
+}
+
+async function loadProvenance(uid) {
+  const listEl = document.getElementById("provenance-list");
+  const updatedEl = document.getElementById("provenance-updated");
+  const realEl = document.getElementById("provenance-real");
+  const fbEl = document.getElementById("provenance-fallback");
+  const disEl = document.getElementById("provenance-disabled");
+  listEl.innerHTML = "";
+  try {
+    const res = await fetch(`/api/video/${uid}/runtime_models`, { cache: "no-store" });
+    if (!res.ok) throw new Error(`status ${res.status}`);
+    const data = await res.json();
+    const entries = data.summary?.entries || [];
+    const counts = data.summary?.counts || { real: 0, fallback: 0, disabled: 0 };
+    realEl.textContent = `${counts.real || 0} real`;
+    fbEl.textContent = `${counts.fallback || 0} fallback`;
+    disEl.textContent = `${counts.disabled || 0} disabled`;
+    entries.forEach((entry) => {
+      const li = document.createElement("li");
+      li.className = `provenance-item mode-${entry.mode}`;
+      li.innerHTML = `
+        <span class="provenance-name">${entry.name}</span>
+        <span class="provenance-mode">${entry.mode}</span>
+        <span class="provenance-phase">${entry.phase}</span>
+        <span class="provenance-reason">${entry.reason || ""}</span>
+      `;
+      listEl.appendChild(li);
+    });
+    if (!entries.length) {
+      listEl.innerHTML = '<li class="provenance-item mode-disabled">No provenance recorded yet.</li>';
+    }
+    updatedEl.textContent = data.updated_at ? `Recorded ${data.updated_at}` : "";
+  } catch (err) {
+    realEl.textContent = "— real";
+    fbEl.textContent = "— fallback";
+    disEl.textContent = "— disabled";
+    listEl.innerHTML = `<li class="provenance-item mode-fallback">runtime_models.json unavailable (${err.message})</li>`;
+    updatedEl.textContent = "";
+  }
 }
 
 function syncVideos() {

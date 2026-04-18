@@ -7,6 +7,7 @@ from src.egoflow.schema import DatasetManifest, ValidationReport
 from src.egoflow.utils.io import read_dataclass, write_json
 from src.egoflow.utils.paths import output_root, video_dir
 from src.egoflow.utils.progress import emit
+from src.egoflow.utils.provenance import record as record_provenance
 
 
 def run(video_uid: str, config: dict) -> None:
@@ -25,6 +26,7 @@ def run(video_uid: str, config: dict) -> None:
         progress=10,
     )
     clip_qa.load()
+    record_provenance(out_dir, [clip_qa], phase="validate")
 
     failed = []
     total = 0

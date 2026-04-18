@@ -14,6 +14,7 @@ from src.egoflow.schema import ClipAnnotation, ClipTrack, HandAnnotation, Object
 from src.egoflow.utils.io import read_dataclass, write_json
 from src.egoflow.utils.paths import output_root, video_dir, weights_root
 from src.egoflow.utils.progress import emit
+from src.egoflow.utils.provenance import record as record_provenance
 from src.egoflow.utils.video_io import read_frame_at_time
 
 
@@ -47,8 +48,18 @@ def run(video_uid: str, config: dict) -> None:
         runner_path=annotation_cfg.get("100doh_runner"),
         timeout_sec=int(annotation_cfg.get("100doh_timeout_sec", 30)),
     )
-    pose_model = HaMeRPose(device=device, weights_path=str(root_weights / "hamer")) if config["annotation"]["enable_hamer"] else None
-    mask_model = SAM2Masks(device=device, weights_path=str(root_weights / "sam2")) if config["annotation"]["enable_sam2"] else None
+    # Always instantiate HaMeR/SAM2 so their status is recorded in runtime_models.json;
+    # they report mode="disabled" when the feature flag or module is missing.
+    pose_model = HaMeRPose(
+        device=device,
+        weights_path=str(root_weights / "hamer"),
+        enabled=bool(annotation_cfg.get("enable_hamer", False)),
+    )
+    mask_model = SAM2Masks(
+        device=device,
+        weights_path=str(root_weights / "sam2"),
+        enabled=bool(annotation_cfg.get("enable_sam2", False)),
+    )
 
     emit(
         video_uid,
@@ -63,6 +74,7 @@ def run(video_uid: str, config: dict) -> None:
     for model in [hands_model, detector, contact_model, pose_model, mask_model]:
         if model is not None:
             model.load()
+    record_provenance(out_dir, [hands_model, detector, contact_model, pose_model, mask_model], phase="annotate")
 
     try:
         for idx, segment in enumerate(segments, start=1):

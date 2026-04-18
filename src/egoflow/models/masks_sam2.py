@@ -10,12 +10,16 @@ logger = get_logger(__name__)
 
 
 class SAM2Masks:
-    def __init__(self, device: str = "cpu", weights_path: Optional[str] = None):
+    def __init__(self, device: str = "cpu", weights_path: Optional[str] = None, enabled: bool = False):
         self.device = device
         self.weights_path = weights_path
+        self.enabled = enabled
         self._loaded = False
 
     def load(self) -> None:
+        if not self.enabled:
+            self._loaded = False
+            return
         try:
             import sam2  # type: ignore  # noqa: F401
 
@@ -29,3 +33,8 @@ class SAM2Masks:
 
     def unload(self) -> None:
         self._loaded = False
+
+    def status(self) -> dict:
+        if self._loaded:
+            return {"name": "SAM2 Masks", "mode": "real", "reason": "sam2 module loaded"}
+        return {"name": "SAM2 Masks", "mode": "disabled", "reason": "sam2 not installed; mask_rle emitted as null"}
